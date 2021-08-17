@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1 class="text-5xl text-center mt-14">Let's get <span class="text-blue-700 font-semibold">Money!!</span>
+        </h1>
+    </header>
+
+    <main class="mx-auto w-3/4 ">
+        <section class="mt-8">
+            <div class="grid grid-cols-3 gap-4 text-white ">
+                <div class="bg-blue-300 p-8 rounded">
+                    <h3 class="text-2xl">Deposite</h3>
+                    <h4 class="text-4xl">$ <span id="deposite-Dashboard">00</span></h4>
+                </div>
+                <div class="bg-green-300 p-8 rounded">
+                    <h3 class="text-2xl">widthdraw</h3>
+                    <h4 class="text-4xl">$<span id="widthdrawal-Dashboard">00</span></h4>
+                </div>
+                <div class="bg-yellow-300 p-8 rounded">
+                    <h3 class="text-2xl">Balance</h3>
+                    <h4 class="text-4xl">$ <span id="oldBalance">1200</span></h4>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deposite and widthdraw -->
+        <section>
+
+            <div class="grid grid-cols-2 gap-4 mt-8">
+                <div class="bg-red-100 p-8 rounded">
+                    <h3 class="text-2xl text-black">Please Deposite</h3>
+                    <div action="">
+                        <input id="deposite-amount" class="mb-4 rounded border border-gray-400 w-3/4 block p-2"
+                            type="text" placeholder="$Put deposite amount" name="">
+                        <button id="deposite-btn" class="text-white bg-yellow-600 rounded px-4 py-2">Deposite</button>
+                    </div>
+                </div>
+
+                <div class="bg-red-300 p-8 rounded">
+                    <h3 class="text-2xl text-black">Please widthdraw</h3>
+                    <div action="">
+                        <input id="widthdrawal-amount" class="mb-4 rounded border border-gray-400 w-3/4 block p-2"
+                            type="text" placeholder="$Put widthdrawal amount" name="">
+                        <button id="widthdrawal-btn"
+                            class="text-white bg-yellow-600 rounded px-4 py-2">WidthDraw</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        function inputValue(inputItem) {
+
+            const inputFeildText = document.getElementById(inputItem);
+
+            const inputFeildValue = inputFeildText.value;
+            const inputFeild = parseFloat(inputFeildValue);
+            inputFeildText.value = '';
+            return inputFeild;
+        }
+
+        function updateMainFeild(amount, totalFeildId, balaceSection) {
+
+            const mainFeildText = document.getElementById(totalFeildId);
+            const mainFeildValue = mainFeildText.innerText;
+            const mainFeild = parseFloat(mainFeildValue);
+
+            mainFeildText.innerText = amount + mainFeild;
+
+        }
+
+        function updateBalace(amount, isAdd) {
+            const balaceSectionText = document.getElementById('oldBalance');
+
+            const balanceArea = widthdrawBalaceCheak();
+            if (isAdd == true) {
+
+                balaceSectionText.innerText = amount + balanceArea;
+            }
+
+            else {
+
+                balaceSectionText.innerText = balanceArea - amount;
+            }
+        }
+
+        function widthdrawBalaceCheak() {
+            const balaceSectionText = document.getElementById('oldBalance');
+            const balaceSectionValue = balaceSectionText.innerText;
+            const balanceArea = parseFloat(balaceSectionValue);
+
+            return balanceArea;
+        }
+
+        document.getElementById('deposite-btn').addEventListener('click', function () {
+            const depositeAmount = inputValue('deposite-amount');
+
+            if (depositeAmount > 0) {
+                updateMainFeild(depositeAmount, 'deposite-Dashboard');
+
+                updateBalace(depositeAmount, true);
+            }
+
+
+
+        });
+
+        document.getElementById('widthdrawal-btn').addEventListener('click', function () {
+            const balanceArea = widthdrawBalaceCheak();
+            const widthdrawalAmount = inputValue('widthdrawal-amount');
+
+            if (widthdrawalAmount >= 0 && balanceArea > widthdrawalAmount) {
+                updateMainFeild(widthdrawalAmount, 'widthdrawal-Dashboard');
+                updateBalace(widthdrawalAmount, false);
+            }
+
+
+
+        });
+
+
+
+
+
+
+    </script>
+    <!-- <script>
+        function inputFeild(inputId) {
+            const inputAmountFeild = document.getElementById(inputId);
+            const inputAmountText = inputAmountFeild.value;
+            const inputAmount = parseFloat(inputAmountText);
+            inputAmountFeild.value = '';
+            return inputAmount;
+        }
+
+        function updateTotal(depositeAmount, totalAmount) {
+            const previousTotalFeild = document.getElementById(totalAmount);
+            const previousTotalText = previousTotalFeild.innerText;
+            const previousTotal = parseFloat(previousTotalText);
+
+            previousTotalFeild.innerText = previousTotal + depositeAmount;
+
+        }
+
+        document.getElementById('deposite-btn').addEventListener('click', function () {
+            const depositeAmount = inputFeild('deposite-amount');
+
+            updateTotal(depositeAmount, 'depositeMainBalance');
+
+
+        });
+        document.getElementById('widthdrawal-btn').addEventListener('click', function () {
+            const WidthdrawAmount = inputFeild('widthdrawal-amount');
+            updateTotal(WidthdrawAmount, 'widthdrawDashboard');
+            // console.log(totalFeild);
+        });
+
+
+    </script> -->
+
+    <!-- <script>
+        document.getElementById('deposite-btn').addEventListener('click', function () {
+            const depositeFeild = document.getElementById('deposite-amount');
+            const newDepositeValueText = depositeFeild.value;
+            const newDepositeValue = parseFloat(newDepositeValueText);
+
+            const depoPreviousText = document.getElementById('depositeMainBalance');
+            const newdepoPreviousText = depoPreviousText.innerText;
+            const depoPreciousValue = parseFloat(newdepoPreviousText);
+
+            const totalValue = depoPreciousValue + newDepositeValue;
+
+            depoPreviousText.innerText = totalValue;
+
+            depositeFeild.value = '';
+
+            //update balance part
+
+            const oldBalanceText = document.getElementById('oldBalance');
+            const previousBalanceText = oldBalanceText.innerText;
+            const previousBalance = parseFloat(previousBalanceText);
+
+            oldBalanceText.innerText = previousBalance + newDepositeValue;
+
+
+        });
+        // WidthDraw Money part
+        document.getElementById('widthdrawal-btn').addEventListener('click', function () {
+            const widthdrawMoneyText = document.getElementById('widthdrawal-amount');
+            const widthdrawMoneyValue = widthdrawMoneyText.value;
+            const widthdrawMoneyFeild = parseFloat(widthdrawMoneyValue);
+
+            const oldWidthdrawDashboardText = document.getElementById('widthdrawDashboard');
+
+            const oldWidthdrawDashboardValue = oldWidthdrawDashboardText.innerText;
+
+            const oldWidthdrawDashboard = parseFloat(oldWidthdrawDashboardValue);
+
+            const updateWidthdrawMoney = oldWidthdrawDashboard + widthdrawMoneyFeild;
+
+            oldWidthdrawDashboardText.innerText = updateWidthdrawMoney;
+
+            widthdrawMoneyText.value = '';
+
+            //WidthdrawWithBalancePart
+
+            const oldBalanceText = document.getElementById('oldBalance');
+            const previousBalanceText = oldBalanceText.innerText;
+            const previousBalance = parseFloat(previousBalanceText);
+
+            const balaceNew = previousBalance - widthdrawMoneyFeild;
+
+            oldBalanceText.innerText = balaceNew;
+
+
+        });
+
+    </script> -->
+</body>
+
+</html>
